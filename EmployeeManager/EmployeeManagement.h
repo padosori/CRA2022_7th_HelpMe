@@ -13,7 +13,7 @@ class EmployeeManagement {
 public:
 	void processCmd(int command, vector<int> options, vector<Inform> informs);
 
-	bool addEmployee(Employee& employee);
+	void addEmployee(Employee& employee);
 
 	unique_ptr<vector<Employee>> deleteEmployee(const Inform info);
 
@@ -21,6 +21,7 @@ public:
 
 	unique_ptr<vector<Employee>> modifyEmployee(const Inform search_info, const Inform modify_info);
 
+	const size_t getEmployeeCount() const;
 private:
 	EmployeeMap employee_map_;
 };
