@@ -2,7 +2,7 @@
 #include <string>
 using namespace std;
 
-struct inform {
+struct Inform {
 	string column;
 	string value;
 };
