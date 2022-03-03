@@ -6,7 +6,7 @@
 #include "Employee.h"
 class Search {
 public:
-	virtual unique_ptr<vector<Employee>> searchTargetEmployList(map<std::string, Employee>& employ_map, Inform inform) = 0;
+	virtual unique_ptr<vector<Employee>> searchTargetEmployeeList(map<std::string, Employee>& employ_map, Inform inform) = 0;
 private:
 
 };
