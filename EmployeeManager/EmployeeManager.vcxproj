@@ -147,10 +147,15 @@
     <ClCompile Include="Client.cpp" />
     <ClCompile Include="EmployeeManagement.cpp" />
     <ClCompile Include="EmployeeNumSearch.cpp" />
+    <ClCompile Include="FirstNameSearch.cpp" />
+    <ClCompile Include="LastNameSearch.cpp" />
+    <ClCompile Include="LastPhoneNumSearch.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="ClSearch.cpp" />
+    <ClCompile Include="MiddlePhoneNumSearch.cpp" />
     <ClCompile Include="NameSearch.cpp" />
     <ClCompile Include="Parser.cpp" />
+    <ClCompile Include="PhoneNumSearch.cpp" />
     <ClCompile Include="sum.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -163,8 +168,13 @@
     <ClInclude Include="Employee.h" />
     <ClInclude Include="EmployeeManagement.h" />
     <ClInclude Include="EmployeeNumSearch.h" />
+    <ClInclude Include="FirstNameSearch.h" />
+    <ClInclude Include="LastNameSearch.h" />
+    <ClInclude Include="LastPhoneNumSearch.h" />
+    <ClInclude Include="MiddlePhoneNumSearch.h" />
     <ClInclude Include="NameSearch.h" />
     <ClInclude Include="Parser.h" />
+    <ClInclude Include="PhoneNumSearch.h" />
     <ClInclude Include="Search.h" />
     <ClInclude Include="ClSearch.h" />
   </ItemGroup>

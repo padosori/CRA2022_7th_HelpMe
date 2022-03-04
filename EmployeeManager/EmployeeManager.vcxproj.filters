@@ -54,6 +54,21 @@
     <ClCompile Include="CertiSearch.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
+    <ClCompile Include="FirstNameSearch.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="LastNameSearch.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="PhoneNumSearch.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="LastPhoneNumSearch.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="MiddlePhoneNumSearch.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">
@@ -93,6 +108,21 @@
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="CertiSearch.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="FirstNameSearch.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="LastNameSearch.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="PhoneNumSearch.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="LastPhoneNumSearch.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="MiddlePhoneNumSearch.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>
