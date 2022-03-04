@@ -1,4 +1,5 @@
 #include "Client.h"
+#include <fstream>
 
 void Client::readInputFile(const string file_name) {
     ifstream readFile;
@@ -15,4 +16,9 @@ void Client::readInputFile(const string file_name) {
     else {
         throw invalid_argument("fail to open a file");
     }
+}
+
+void Client::parseInputFile(void) {
+    Parser parser;
+    parsed_file_ = parser.parse(file_str_);
 }
