@@ -19,7 +19,7 @@ protected:
 			"CL2", "PRO" });
 
 		employees.push_back(Employee{ "01001122", "Gyoungrae Hong", "Gyoungrae", "Hong",
-			"010-1234-6789", "1234", "5678",
+			"010-1234-6789", "1234", "6789",
 			"20000203", "2000", "02", "03",
 			"CL1", "EX" });
 
