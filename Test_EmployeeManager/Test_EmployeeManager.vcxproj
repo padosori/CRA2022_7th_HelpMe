@@ -53,6 +53,7 @@
     <ClCompile Include="TestClSearch.cpp" />
     <ClCompile Include="TestEmployeeNumSearch.cpp" />
     <ClCompile Include="TestNameSearch.cpp" />
+    <ClCompile Include="TestParser.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\EmployeeManager\EmployeeManager.vcxproj">
