@@ -33,6 +33,21 @@
     <ClCompile Include="BirthdaySearch.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
+    <ClCompile Include="EmployeeNumSearch.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="BirthdayYearSearch.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="BirthdayMonthSearch.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="BirthdayDaySearch.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="NameSearch.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">
@@ -51,6 +66,21 @@
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="BirthdaySearch.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="EmployeeNumSearch.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="BirthdayYearSearch.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="BirthdayMonthSearch.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="BirthdayDaySearch.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="NameSearch.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>
