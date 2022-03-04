@@ -15,28 +15,42 @@ void EmployeeManagement::addEmployee(Employee& employee) {
 		return;
 	}
 
-	auto ret = employee_map_.insert(make_pair(employee.employee_num, employee));
+	auto ret = employee_map.insert(make_pair(employee.employee_num, employee));
 
 	if (ret.second == false) {
 		throw invalid_argument("fail to add employee");
 	}
 }
 
-unique_ptr<vector<Employee>> EmployeeManagement::deleteEmployee(const Inform info) {
+unique_ptr<vector<Employee>> EmployeeManagement::deleteEmployee(Search& searcher, const Inform info) {
+	auto employees = make_unique<vector<Employee>>();
+	auto search_result = searcher.search(employee_map, info);
+
+	if (0 == search_result->size()) {
+		throw invalid_argument("Can't find Employee");
+	}
+
+	for (auto& employee : *search_result) {
+		employees->emplace_back(employee);
+		employee_map.erase(employee.employee_num);
+	}
+	return move(employees);
+}
+
+unique_ptr<vector<Employee>> EmployeeManagement::searchEmployee(Search& searcher, const Inform info) {
 	auto employees = make_unique<vector<Employee>>();
 	return move(employees);
 }
 
-unique_ptr<vector<Employee>> EmployeeManagement::searchEmployee(const Inform info) {
-	auto employees = make_unique<vector<Employee>>();
-	return move(employees);
-}
-
-unique_ptr<vector<Employee>> EmployeeManagement::modifyEmployee(const Inform search_info, const Inform modify_info) {
+unique_ptr<vector<Employee>> EmployeeManagement::modifyEmployee(Search& searcher, const Inform search_info, const Inform modify_info) {
 	auto employees = make_unique<vector<Employee>>();
 	return move(employees);
 }
 
 const size_t EmployeeManagement::getEmployeeCount() const {
-	return employee_map_.size();
+	return employee_map.size();
+}
+
+void EmployeeManagement::clearEmployee() {
+	employee_map.clear();
 }
