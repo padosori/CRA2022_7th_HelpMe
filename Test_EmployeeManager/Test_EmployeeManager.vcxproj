@@ -44,10 +44,15 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="TestBirthdayDaySearch.cpp" />
+    <ClCompile Include="TestBirthdayMonthSearch.cpp" />
     <ClCompile Include="TestBirthdaySearch.cpp" />
+    <ClCompile Include="TestBirthdayYearSearch.cpp" />
     <ClCompile Include="TestClient.cpp" />
     <ClCompile Include="TestEmployeeManagement.cpp" />
     <ClCompile Include="TestClSearch.cpp" />
+    <ClCompile Include="TestEmployeeNumSearch.cpp" />
+    <ClCompile Include="TestNameSearch.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\EmployeeManager\EmployeeManager.vcxproj">
