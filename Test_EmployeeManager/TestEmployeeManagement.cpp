@@ -87,22 +87,22 @@ TEST_F(TestEmployeeManagement, Delete) {
 	unique_ptr<vector<Employee>> employees;
 
 	Inform info = {"cl", "CL1"};
-	EXPECT_NO_THROW(employees = employee_management.deleteEmployee(searcher, info));
+	EXPECT_NO_THROW(employees = employee_management.deleteEmployees(searcher, info));
 	EXPECT_EQ(employees->size(), 2);
 	EXPECT_EQ(employee_management.getEmployeeCount(), 4);
 
 	info = { "cl", "CL2" };
-	EXPECT_NO_THROW(employees = employee_management.deleteEmployee(searcher, info));
+	EXPECT_NO_THROW(employees = employee_management.deleteEmployees(searcher, info));
 	EXPECT_EQ(employees->size(), 2);
 	EXPECT_EQ(employee_management.getEmployeeCount(), 2);
 
 	info = { "cl", "CL3" };
-	EXPECT_NO_THROW(employees = employee_management.deleteEmployee(searcher, info));
+	EXPECT_NO_THROW(employees = employee_management.deleteEmployees(searcher, info));
 	EXPECT_EQ(employees->size(), 1);
 	EXPECT_EQ(employee_management.getEmployeeCount(), 1);
 
 	info = { "cl", "CL4" };
-	EXPECT_NO_THROW(employees = employee_management.deleteEmployee(searcher, info));
+	EXPECT_NO_THROW(employees = employee_management.deleteEmployees(searcher, info));
 	EXPECT_EQ(employees->size(), 1);
 	EXPECT_EQ(employee_management.getEmployeeCount(), 0);
 }
@@ -112,29 +112,96 @@ TEST_F(TestEmployeeManagement, DeleteFail) {
 
 	EXPECT_EQ(employee_management.getEmployeeCount(), 6);
 	Inform info = { "cl", "CL5" };
-	EXPECT_THROW(employee_management.deleteEmployee(searcher, info), invalid_argument);
+	EXPECT_THROW(employee_management.deleteEmployees(searcher, info), invalid_argument);
 	EXPECT_EQ(employee_management.getEmployeeCount(), 6);
 }
 
 
 TEST_F(TestEmployeeManagement, Search) {
-	Inform info;
 	ClSearch searcher;
 	unique_ptr<vector<Employee>> employees;
 
-	EXPECT_NO_THROW(employees = employee_management.searchEmployee(searcher, info));
+	Inform info = { "cl", "CL1" };
+	EXPECT_NO_THROW(employees = employee_management.searchEmployees(searcher, info));
 	ASSERT_NE(employees, nullptr);
-	ASSERT_EQ(employees->size(), 0);
+	ASSERT_EQ(employees->size(), 2);
+	ASSERT_EQ((* employees)[0].cl, "CL1");
+	ASSERT_EQ((*employees)[0].employee_num, "11111111");
+	ASSERT_EQ((* employees)[1].cl, "CL1");
+	ASSERT_EQ((*employees)[1].employee_num, "80808080");
+}
+
+TEST_F(TestEmployeeManagement, SearchFail) {
+	ClSearch searcher;
+
+	Inform info = { "cl", "CL5" };
+	EXPECT_THROW(employee_management.searchEmployees(searcher, info), invalid_argument);
+}
+
+TEST_F(TestEmployeeManagement, modifyEmployeeValue) {
+	Employee employee{ "00112233", "Gildong Hong", "Gildong", "Hong",
+		"010-1234-5678", "1234", "5678",
+		"20000102", "2000", "01", "02",
+		"CL1", "PRO" };
+
+	Inform modify_info{ "name", "HongGil Dong" };
+	EXPECT_NO_THROW(employee_management.modifyEmployeeValue(employee, modify_info));
+	EXPECT_EQ(employee.name, "HongGil Dong");
+	EXPECT_EQ(employee.first_name, "HongGil");
+	EXPECT_EQ(employee.last_name, "Dong");
+
+	modify_info = { "phoneNum", "010-8888-9999" };
+	EXPECT_NO_THROW(employee_management.modifyEmployeeValue(employee, modify_info));
+	EXPECT_EQ(employee.phone_num, "010-8888-9999");
+	EXPECT_EQ(employee.mid_phone_num, "8888");
+	EXPECT_EQ(employee.last_phone_num, "9999");
+
+	modify_info = { "birthday", "19990910" };
+	EXPECT_NO_THROW(employee_management.modifyEmployeeValue(employee, modify_info));
+	EXPECT_EQ(employee.birthday, "19990910");
+	EXPECT_EQ(employee.birthday_year, "1999");
+	EXPECT_EQ(employee.birthday_month, "09");
+	EXPECT_EQ(employee.birthday_day, "10");
+
+	modify_info = { "cl", "CL4" };
+	EXPECT_NO_THROW(employee_management.modifyEmployeeValue(employee, modify_info));
+	EXPECT_EQ(employee.cl, "CL4");
+
+	modify_info = { "certi", "EX" };
+	EXPECT_NO_THROW(employee_management.modifyEmployeeValue(employee, modify_info));
+	EXPECT_EQ(employee.certi, "EX");
+
+	modify_info = { "aaaa", "aaaa" };
+	EXPECT_THROW(employee_management.modifyEmployeeValue(employee, modify_info), invalid_argument);
 }
 
 
 TEST_F(TestEmployeeManagement, Modify) {
-	Inform search_info;
-	Inform modify_info;
 	ClSearch searcher;
 	unique_ptr<vector<Employee>> employees;
 
-	EXPECT_NO_THROW(employees = employee_management.modifyEmployee(searcher, search_info, modify_info));
+
+	Inform search_info = { "cl", "CL3" };
+	EXPECT_NO_THROW(employees = employee_management.searchEmployees(searcher, search_info));
 	ASSERT_NE(employees, nullptr);
-	ASSERT_EQ(employees->size(), 0);
+	ASSERT_EQ(employees->size(), 1);
+
+	search_info = { "cl", "CL1" };
+	Inform modify_info = { "cl", "CL3" };
+	EXPECT_NO_THROW(employees = employee_management.modifyEmployees(searcher, search_info, modify_info));
+	ASSERT_NE(employees, nullptr);
+	ASSERT_EQ(employees->size(), 2);
+
+	search_info = { "cl", "CL3" };
+	EXPECT_NO_THROW(employees = employee_management.searchEmployees(searcher, search_info));
+	ASSERT_NE(employees, nullptr);
+	ASSERT_EQ(employees->size(), 3);
+}
+
+TEST_F(TestEmployeeManagement, ModifyFail) {
+	ClSearch searcher;
+
+	Inform search_info{ "aaa", "aaa" };
+	Inform modify_info{ "bbb", "bbb" };
+	EXPECT_THROW(employee_management.modifyEmployees(searcher, search_info, modify_info), invalid_argument);
 }

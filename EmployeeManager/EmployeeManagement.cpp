@@ -22,7 +22,7 @@ void EmployeeManagement::addEmployee(Employee& employee) {
 	}
 }
 
-unique_ptr<vector<Employee>> EmployeeManagement::deleteEmployee(Search& searcher, const Inform info) {
+unique_ptr<vector<Employee>> EmployeeManagement::deleteEmployees(Search& searcher, const Inform info) {
 	auto employees = make_unique<vector<Employee>>();
 	auto search_result = searcher.search(employee_map, info);
 
@@ -37,14 +37,67 @@ unique_ptr<vector<Employee>> EmployeeManagement::deleteEmployee(Search& searcher
 	return move(employees);
 }
 
-unique_ptr<vector<Employee>> EmployeeManagement::searchEmployee(Search& searcher, const Inform info) {
+unique_ptr<vector<Employee>> EmployeeManagement::searchEmployees(Search& searcher, const Inform info) {
 	auto employees = make_unique<vector<Employee>>();
+	auto search_result = searcher.search(employee_map, info);
+
+	if (0 == search_result->size()) {
+		throw invalid_argument("Can't find Employee");
+	}
+
+	for (auto& employee : *search_result) {
+		employees->emplace_back(employee);
+	}
 	return move(employees);
 }
 
-unique_ptr<vector<Employee>> EmployeeManagement::modifyEmployee(Search& searcher, const Inform search_info, const Inform modify_info) {
+unique_ptr<vector<Employee>> EmployeeManagement::modifyEmployees(Search& searcher, const Inform search_info, const Inform modify_info) {
 	auto employees = make_unique<vector<Employee>>();
+	auto search_result = searcher.search(employee_map, search_info);
+
+	if (0 == search_result->size()) {
+		throw invalid_argument("Can't find Employee");
+	}
+
+	for (auto& employee : *search_result) {
+		auto it = employee_map.find(employee.employee_num);
+		if (it != employee_map.end()) {
+			employees->emplace_back(employee);
+			modifyEmployeeValue(it->second, modify_info);
+		}
+	}
 	return move(employees);
+}
+
+void EmployeeManagement::modifyEmployeeValue(Employee& employee, const Inform info) {
+	if(info.column == "employeeNum") throw invalid_argument("Can't modify employ number");
+	else if (info.column == "name") {
+		employee.name = info.value;
+		employee.first_name = info.value.substr(0, info.value.find(" "));
+		employee.last_name = info.value.substr(info.value.find(" ") + 1);
+	}
+	else if (info.column == "phoneNum") {
+		employee.phone_num = info.value;
+		size_t first_devider = info.value.find("-") + 1;
+		size_t second_devider = info.value.find("-", first_devider);
+		employee.mid_phone_num = info.value.substr(first_devider, second_devider - first_devider);
+		employee.last_phone_num = info.value.substr(second_devider + 1);
+	}
+	else if (info.column == "birthday") {
+		employee.birthday = info.value;
+		employee.birthday_year = info.value.substr(0, 4);
+		employee.birthday_month = info.value.substr(4, 2);
+		employee.birthday_day = info.value.substr(6, 2);
+	}
+	else if (info.column == "cl") {
+		employee.cl = info.value;
+	}
+	else if (info.column == "certi") {
+		employee.certi = info.value;
+	}
+	else {
+		throw invalid_argument("Invalid column string");
+	}
 }
 
 const size_t EmployeeManagement::getEmployeeCount() const {
