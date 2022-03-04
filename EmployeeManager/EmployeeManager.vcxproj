@@ -143,6 +143,7 @@
     <ClCompile Include="BirthdayMonthSearch.cpp" />
     <ClCompile Include="BirthdaySearch.cpp" />
     <ClCompile Include="BirthdayYearSearch.cpp" />
+    <ClCompile Include="CertiSearch.cpp" />
     <ClCompile Include="Client.cpp" />
     <ClCompile Include="EmployeeManagement.cpp" />
     <ClCompile Include="EmployeeNumSearch.cpp" />
@@ -157,6 +158,7 @@
     <ClInclude Include="BirthdayMonthSearch.h" />
     <ClInclude Include="BirthdaySearch.h" />
     <ClInclude Include="BirthdayYearSearch.h" />
+    <ClInclude Include="CertiSearch.h" />
     <ClInclude Include="Client.h" />
     <ClInclude Include="Employee.h" />
     <ClInclude Include="EmployeeManagement.h" />
