@@ -4,6 +4,7 @@
 #include <map>
 #include <vector>
 #include "Employee.h"
+#include "Search.h"
 
 using namespace std;
 
@@ -15,13 +16,15 @@ public:
 
 	void addEmployee(Employee& employee);
 
-	unique_ptr<vector<Employee>> deleteEmployee(const Inform info);
+	unique_ptr<vector<Employee>> deleteEmployee(Search& searcher, const Inform info);
 
-	unique_ptr<vector<Employee>> searchEmployee(const Inform info);
+	unique_ptr<vector<Employee>> searchEmployee(Search& searcher, const Inform info);
 
-	unique_ptr<vector<Employee>> modifyEmployee(const Inform search_info, const Inform modify_info);
+	unique_ptr<vector<Employee>> modifyEmployee(Search& searcher, const Inform search_info, const Inform modify_info);
 
 	const size_t getEmployeeCount() const;
+
+	void clearEmployee();
 private:
-	EmployeeMap employee_map_;
+	EmployeeMap employee_map;
 };
