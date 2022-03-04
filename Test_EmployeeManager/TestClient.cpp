@@ -4,12 +4,18 @@
 
 using namespace std;
 
-TEST(TestClient, readInputFileSuccess) {
+TEST(TestClient, TestReadInputFileSuccess) {
 	Client client;
 	EXPECT_NO_THROW(client.readInputFile("input_20_20.txt"));
 }
 
-TEST(TestClient, readInputFileFail) {
+TEST(TestClient, TestReadInputFileFail) {
 	Client client;
 	EXPECT_THROW(client.readInputFile("invalid file name.txt"), std::invalid_argument);
+}
+
+TEST(TestClient, TestParseInputFile) {
+	Client client;
+	EXPECT_NO_THROW(client.readInputFile("input_20_20.txt"));
+	EXPECT_NO_THROW(client.parseInputFile());
 }
