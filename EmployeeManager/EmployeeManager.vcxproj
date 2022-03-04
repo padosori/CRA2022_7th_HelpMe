@@ -139,18 +139,28 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="BirthdayDaySearch.cpp" />
+    <ClCompile Include="BirthdayMonthSearch.cpp" />
     <ClCompile Include="BirthdaySearch.cpp" />
+    <ClCompile Include="BirthdayYearSearch.cpp" />
     <ClCompile Include="Client.cpp" />
     <ClCompile Include="EmployeeManagement.cpp" />
+    <ClCompile Include="EmployeeNumSearch.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="ClSearch.cpp" />
+    <ClCompile Include="NameSearch.cpp" />
     <ClCompile Include="sum.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="BirthdayDaySearch.h" />
+    <ClInclude Include="BirthdayMonthSearch.h" />
     <ClInclude Include="BirthdaySearch.h" />
+    <ClInclude Include="BirthdayYearSearch.h" />
     <ClInclude Include="Client.h" />
     <ClInclude Include="Employee.h" />
     <ClInclude Include="EmployeeManagement.h" />
+    <ClInclude Include="EmployeeNumSearch.h" />
+    <ClInclude Include="NameSearch.h" />
     <ClInclude Include="Search.h" />
     <ClInclude Include="ClSearch.h" />
   </ItemGroup>

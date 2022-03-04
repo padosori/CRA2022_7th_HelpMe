@@ -25,7 +25,7 @@ protected:
 
 		employees.push_back(Employee{ "99112233", "Gyoungrae Hong", "Gyoungrae", "Hong",
 			"010-0000-0001", "0000", "0001",
-			"19990203", "1999", "02", "02",
+			"19990203", "1999", "02", "03",
 			"CL3", "EX" });
 
 		employeeMap->insert({ "00112233", employees[0] });
