@@ -16,11 +16,13 @@ public:
 
 	void addEmployee(Employee& employee);
 
-	unique_ptr<vector<Employee>> deleteEmployee(Search& searcher, const Inform info);
+	unique_ptr<vector<Employee>> deleteEmployees(Search& searcher, const Inform info);
 
-	unique_ptr<vector<Employee>> searchEmployee(Search& searcher, const Inform info);
+	unique_ptr<vector<Employee>> searchEmployees(Search& searcher, const Inform info);
 
-	unique_ptr<vector<Employee>> modifyEmployee(Search& searcher, const Inform search_info, const Inform modify_info);
+	unique_ptr<vector<Employee>> modifyEmployees(Search& searcher, const Inform search_info, const Inform modify_info);
+
+	void modifyEmployeeValue(Employee& employee, const Inform info);
 
 	const size_t getEmployeeCount() const;
 

@@ -37,4 +37,7 @@ private:
 	Command getCommand(string str);
 	Option getOption(string str);
 	ParsedLine parseLine(string str_line);
+	void transformParsedLine(ParsedLine& parsed_line);
+	void transformParsedLineCommand(ParsedLine& parsed_line);
+	void transformParsedLineOption(ParsedLine& parsed_line);
 };

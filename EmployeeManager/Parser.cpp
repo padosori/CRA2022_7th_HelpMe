@@ -46,11 +46,54 @@ ParsedLine Parser::parseLine(string str_line) {
     return parsed_line;
 }
 
-unique_ptr<vector<ParsedLine>> Parser::parse(const vector<string>& str) {
-    auto parsed_file_vector = make_unique<vector<ParsedLine>>();
-    
-    for (auto str : str) {
-        parsed_file_vector->emplace_back(parseLine(str));
+void Parser::transformParsedLineCommand(ParsedLine& parsed_line) {
+    if (parsed_line.command == Command::ADD) {
+        parsed_line.informs[0].column = "employeeNum";
+        parsed_line.informs[1].column = "name";
+        parsed_line.informs[2].column = "cl";
+        parsed_line.informs[3].column = "phoneNum";
+        parsed_line.informs[4].column = "birthday";
+        parsed_line.informs[5].column = "certi";
     }
-    return move(parsed_file_vector);
+}
+
+void Parser::transformParsedLineOption(ParsedLine& parsed_line) {
+    if (parsed_line.options[1] == Option::FIRST_NAME) {
+        if (parsed_line.informs[0].column == "name") { parsed_line.informs[0].column = "name_first"; }
+    }
+    else if (parsed_line.options[1] == Option::LAST_NAME_AND_PHONE_NUM) {
+        if (parsed_line.informs[0].column == "phoneNum") { parsed_line.informs[0].column = "phoneNum_last"; }
+        else if (parsed_line.informs[0].column == "name") { parsed_line.informs[0].column = "name_last"; }
+    }
+    else if (parsed_line.options[1] == Option::MIDDLE_PHONE_NUM_AND_MONTH) {
+        if (parsed_line.informs[0].column == "phoneNum") { parsed_line.informs[0].column = "phoneNum_middle"; }
+        else if (parsed_line.informs[0].column == "birthday") { parsed_line.informs[0].column = "birthday_month"; }
+    }
+    else if (parsed_line.options[1] == Option::YEAR) {
+        if (parsed_line.informs[0].column == "birthday") { parsed_line.informs[0].column = "birthday_year"; }
+    }
+    else if (parsed_line.options[1] == Option::DAY) {
+        if (parsed_line.informs[0].column == "birthday") { parsed_line.informs[0].column = "birthday_day"; }
+    }
+}
+
+void Parser::transformParsedLine(ParsedLine& parsed_line) {
+    transformParsedLineCommand(parsed_line);
+    transformParsedLineOption(parsed_line);
+}
+
+unique_ptr<vector<ParsedLine>> Parser::parse(const vector<string>& str) {
+    auto parsed_lines = make_unique<vector<ParsedLine>>();
+
+    for (auto str : str) {
+        parsed_lines->emplace_back(parseLine(str));
+    }
+
+    // TODO: validate pared_lines
+
+    for (auto& parsed_line : *parsed_lines) {
+        transformParsedLine(parsed_line);
+    }
+
+    return move(parsed_lines);
 }
