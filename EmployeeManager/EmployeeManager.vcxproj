@@ -178,6 +178,11 @@
     <ClInclude Include="Search.h" />
     <ClInclude Include="ClSearch.h" />
   </ItemGroup>
+  <ItemGroup>
+    <Text Include="input_20_20.txt" />
+    <Text Include="output_20_20.txt" />
+    <Text Include="output_20_20_unit_test_results.txt" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
