@@ -45,14 +45,23 @@ protected:
 	vector<Employee> employees;
 };
 
-
 TEST_F(TestEmployeeManagement, ProcessCMD) {
-	vector<int> options;
+	vector<Option> options;
 	vector<Inform> informs;
 
-	EXPECT_NO_THROW(employee_management.processCmd(0, options, informs));
+	informs.emplace_back(Inform{"name", "Test Name"});
+
+	EXPECT_NO_THROW(employee_management.processCmd(Command::ADD, options, informs));
 }
 
+TEST_F(TestEmployeeManagement, ProcessCMDException) {
+	vector<Option> options;
+	vector<Inform> informs;
+
+	informs.emplace_back(Inform{ "invalidColumn", "Test Name" });
+
+	EXPECT_THROW(employee_management.processCmd(Command::ADD, options, informs), invalid_argument);
+}
 
 TEST_F(TestEmployeeManagement, GetEmployeeCount) {
 	ASSERT_EQ(employee_management.getEmployeeCount(), 6);

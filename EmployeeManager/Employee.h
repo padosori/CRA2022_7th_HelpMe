@@ -25,3 +25,20 @@ struct Employee {
 	string cl;
 	string certi;
 };
+
+enum class Command {
+	ADD,
+	DEL,
+	SCH,
+	MOD
+};
+
+enum class Option {
+	NONE,
+	PRINT,
+	FIRST_NAME,
+	LAST_NAME_AND_PHONE_NUM,
+	MIDDLE_PHONE_NUM_AND_MONTH,
+	YEAR,
+	DAY,
+};

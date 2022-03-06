@@ -19,3 +19,11 @@ TEST(TestClient, TestParseInputFile) {
 	EXPECT_NO_THROW(client.readInputFile("input_20_20.txt"));
 	EXPECT_NO_THROW(client.parseInputFile());
 }
+
+TEST(TestClient, TestRun) {
+	Client client;
+
+	EXPECT_NO_THROW(client.readInputFile("input_20_20.txt"));
+	EXPECT_NO_THROW(client.parseInputFile());
+	EXPECT_NO_THROW(client.runAndWriteOutputFile("output_20_20_unit_test_results.txt"));
+}
