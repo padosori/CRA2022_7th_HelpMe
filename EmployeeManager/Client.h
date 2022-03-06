@@ -8,8 +8,10 @@ class Client {
 public:
 	void readInputFile(const string file_name);
 	void parseInputFile(void);
+	void runAndWriteOutputFile(const string file_name);
 
 private:
-	vector<string> file_str_;
-	unique_ptr<vector<ParsedLine>> parsed_file_;
+	const int MAX_PRINT_LINES = 5;
+	vector<string> raw_lines;
+	unique_ptr<vector<ParsedLine>> parsed_lines;
 };

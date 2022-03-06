@@ -12,7 +12,7 @@ typedef map<string, Employee> EmployeeMap;
 
 class EmployeeManagement {
 public:
-	void processCmd(int command, vector<int> options, vector<Inform> informs);
+	unique_ptr<vector<Employee>> processCmd(Command command, vector<Option> options, vector<Inform> informs);
 
 	void addEmployee(Employee& employee);
 

@@ -6,24 +6,8 @@
 
 using namespace std;
 
-enum class Command {
-	ADD,
-	DEL,
-	SCH,
-	MOD
-};
-
-enum class Option {
-	NONE,
-	PRINT,
-	FIRST_NAME,
-	LAST_NAME_AND_PHONE_NUM,
-	MIDDLE_PHONE_NUM_AND_MONTH,
-	YEAR,
-	DAY,
-};
-
 struct ParsedLine {
+	string command_str;
 	Command command;
 	vector<Option> options;
 	vector<Inform> informs;

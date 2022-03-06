@@ -29,6 +29,7 @@ ParsedLine Parser::parseLine(string str_line) {
     for (int i = 0; getline(str_stream, word, ','); i++) {
         if (i == 0) {
             parsed_line.command = getCommand(word);
+            parsed_line.command_str = word;
         }
         else if (i == 1 || i == 2 || i == 3) {
             parsed_line.options.emplace_back(getOption(word));
