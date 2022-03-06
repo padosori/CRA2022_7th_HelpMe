@@ -126,4 +126,15 @@
       <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>
+  <ItemGroup>
+    <Text Include="input_20_20.txt">
+      <Filter>리소스 파일</Filter>
+    </Text>
+    <Text Include="output_20_20.txt">
+      <Filter>리소스 파일</Filter>
+    </Text>
+    <Text Include="output_20_20_unit_test_results.txt">
+      <Filter>리소스 파일</Filter>
+    </Text>
+  </ItemGroup>
 </Project>
