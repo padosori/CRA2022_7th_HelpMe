@@ -133,8 +133,6 @@ TEST_F(TestEmployeeManagement, ProcessCmdEmployeeSearchFactory) {
 	EXPECT_EQ(employee_management.getEmployeeCount(), 6);
 }
 
-
-
 TEST_F(TestEmployeeManagement, ProcessCMDException) {
 	vector<Option> options;
 	vector<Inform> informs;
@@ -142,6 +140,24 @@ TEST_F(TestEmployeeManagement, ProcessCMDException) {
 	informs.emplace_back(Inform{ "invalidColumn", "Test Name" });
 
 	EXPECT_THROW(employee_management.processCmd(Command::ADD, options, informs), invalid_argument);
+}
+
+TEST_F(TestEmployeeManagement, printCurrentCmd) {
+	vector<Option> options;
+	vector<Inform> informs;
+
+	EXPECT_EQ(employee_management.getEmployeeCount(), 6);
+
+	informs.emplace_back(Inform{ "employeeNum", "12341234" });
+	informs.emplace_back(Inform{ "name", "GILDONG HONG" });
+	informs.emplace_back(Inform{ "phoneNum", "010-1234-1234" });
+	informs.emplace_back(Inform{ "birthday", "15000101" });
+	informs.emplace_back(Inform{ "cl", "CL2" });
+	informs.emplace_back(Inform{ "certi", "EX" });
+
+	string result = employee_management.printCurrentCmd(Command::ADD, options, informs);
+	EXPECT_EQ(result, " CMD:ADD, op(), info(employeeNum=12341234, name=GILDONG HONG, phoneNum=010-1234-1234, \
+birthday=15000101, cl=CL2, certi=EX, )");
 }
 
 TEST_F(TestEmployeeManagement, GetEmployeeCount) {
