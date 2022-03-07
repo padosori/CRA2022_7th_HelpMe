@@ -28,8 +28,31 @@ public:
 	void clearEmployee();
 
 	string printCurrentCmd(Command command, vector<Option> options, vector<Inform> informs);
-private:
 
+	bool insert(pair<string, unique_ptr<Employee>> element) {
+		return employee_map.insert(move(element)).second;
+	}
+
+	void erase(string key) {
+		employee_map.erase(key);
+	}
+
+	size_t count(string key) {
+		return employee_map.count(key);
+	}
+
+	Employee* find(string key) {
+		auto it = employee_map.find(key);
+		if (it == employee_map.end()) return nullptr;
+		return it->second.get();
+	}
+
+	// TODO: getMap() should be removed.
+	EmployeeMap& getMap() {
+		return employee_map;
+	}
+
+private:
 	EmployeeMap employee_map;
 	SearchFactory search_factory;
 };

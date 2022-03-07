@@ -133,16 +133,14 @@ void EmployeeManagement::addEmployee(unique_ptr<Employee> employee) {
 		return;
 	}
 
-	auto ret = employee_map.insert(make_pair(employee->employee_num, move(employee)));
-
-	if (ret.second == false) {
+	if (insert(make_pair(employee->employee_num, move(employee))) == false) {
 		throw invalid_argument("fail to add employee");
 	}
 }
 
 unique_ptr<vector<Employee>> EmployeeManagement::deleteEmployees(Search& searcher, const Inform info) {
 	auto employees = make_unique<vector<Employee>>();
-	auto search_result = searcher.search(employee_map, info);
+	auto search_result = searcher.search(*this, info);
 
 	if (0 == search_result->size()) {
 		throw invalid_argument("Can't find Employee");
@@ -150,14 +148,14 @@ unique_ptr<vector<Employee>> EmployeeManagement::deleteEmployees(Search& searche
 
 	for (auto& employee : *search_result) {
 		employees->emplace_back(employee);
-		employee_map.erase(employee.employee_num);
+		erase(employee.employee_num);
 	}
 	return move(employees);
 }
 
 unique_ptr<vector<Employee>> EmployeeManagement::searchEmployees(Search& searcher, const Inform info) {
 	auto employees = make_unique<vector<Employee>>();
-	auto search_result = searcher.search(employee_map, info);
+	auto search_result = searcher.search(*this, info);
 
 	for (auto& employee : *search_result) {
 		employees->emplace_back(employee);
@@ -167,17 +165,16 @@ unique_ptr<vector<Employee>> EmployeeManagement::searchEmployees(Search& searche
 
 unique_ptr<vector<Employee>> EmployeeManagement::modifyEmployees(Search& searcher, const Inform search_info, const Inform modify_info) {
 	auto employees = make_unique<vector<Employee>>();
-	auto search_result = searcher.search(employee_map, search_info);
+	auto search_result = searcher.search(*this, search_info);
 
 	if (0 == search_result->size()) {
 		throw invalid_argument("Can't find Employee");
 	}
 
 	for (auto& employee : *search_result) {
-		auto it = employee_map.find(employee.employee_num);
-		if (it != employee_map.end()) {
+		if (auto found_employee = find(employee.employee_num)) {
 			employees->emplace_back(employee);
-			modifyEmployeeValue(*(it->second), modify_info);
+			modifyEmployeeValue(*found_employee, modify_info);
 		}
 	}
 	return move(employees);
