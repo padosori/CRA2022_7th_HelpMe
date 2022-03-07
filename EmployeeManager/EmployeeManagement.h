@@ -6,6 +6,7 @@
 #include "Employee.h"
 #include "Search.h"
 #include "SearchFactory.h"
+#include "CmdFactory.h"
 
 using namespace std;
 
@@ -14,12 +15,6 @@ public:
 	unique_ptr<vector<Employee>> processCmd(Command command, vector<Option> options, vector<Inform> informs);
 
 	void addEmployee(unique_ptr<Employee> employee);
-
-	unique_ptr<vector<Employee>> deleteEmployees(Search& searcher, const Inform info);
-
-	unique_ptr<vector<Employee>> searchEmployees(Search& searcher, const Inform info);
-
-	unique_ptr<vector<Employee>> modifyEmployees(Search& searcher, const Inform search_info, const Inform modify_info);
 
 	void modifyEmployeeValue(Employee& employee, const Inform info);
 
@@ -55,4 +50,5 @@ public:
 private:
 	EmployeeMap employee_map;
 	SearchFactory search_factory;
+	EmployeeListCmdFactory cmd_factory;
 };

@@ -2,6 +2,11 @@
 #include "../EmployeeManager/Employee.h"
 #include "../EmployeeManager/Search.h"
 #include "../EmployeeManager/ClSearch.h"
+#include "../EmployeeManager/EmployeeListCmd.h"
+#include "../EmployeeManager/DeleteEmployeeListCmd.cpp"
+#include "../EmployeeManager/SearchEmployeeListCmd.cpp"
+#include "../EmployeeManager/ModifyEmployeeListCmd.cpp"
+#include "../EmployeeManager/CmdFactory.cpp"
 #include "../EmployeeManager/EmployeeManagement.cpp"
 
 class TestEmployeeManagement : public ::testing::Test {
@@ -43,6 +48,7 @@ protected:
 
 	EmployeeManagement employee_management;
 	vector<Employee> employees;
+	EmployeeListCmdFactory cmd_factory;
 };
 
 TEST_F(TestEmployeeManagement, ProcessCMD) {
@@ -192,23 +198,29 @@ TEST_F(TestEmployeeManagement, Delete) {
 	ClSearch searcher;
 	unique_ptr<vector<Employee>> employees;
 
-	Inform info = {"cl", "CL1"};
-	EXPECT_NO_THROW(employees = employee_management.deleteEmployees(searcher, info));
+	vector<Inform> informs;
+	informs.push_back({ "cl", "CL1" });
+
+	auto employee_list_cmd = cmd_factory.getCmd(Command::DEL);
+	EXPECT_NO_THROW(employees = employee_list_cmd->process(employee_management, searcher, informs));
 	EXPECT_EQ(employees->size(), 2);
 	EXPECT_EQ(employee_management.getEmployeeCount(), 4);
 
-	info = { "cl", "CL2" };
-	EXPECT_NO_THROW(employees = employee_management.deleteEmployees(searcher, info));
+	informs.clear();
+	informs.push_back({ "cl", "CL2" });
+	EXPECT_NO_THROW(employees = employee_list_cmd->process(employee_management, searcher, informs));
 	EXPECT_EQ(employees->size(), 2);
 	EXPECT_EQ(employee_management.getEmployeeCount(), 2);
 
-	info = { "cl", "CL3" };
-	EXPECT_NO_THROW(employees = employee_management.deleteEmployees(searcher, info));
+	informs.clear();
+	informs.push_back({ "cl", "CL3" });
+	EXPECT_NO_THROW(employees = employee_list_cmd->process(employee_management, searcher, informs));
 	EXPECT_EQ(employees->size(), 1);
 	EXPECT_EQ(employee_management.getEmployeeCount(), 1);
 
-	info = { "cl", "CL4" };
-	EXPECT_NO_THROW(employees = employee_management.deleteEmployees(searcher, info));
+	informs.clear();
+	informs.push_back({ "cl", "CL4" });
+	EXPECT_NO_THROW(employees = employee_list_cmd->process(employee_management, searcher, informs));
 	EXPECT_EQ(employees->size(), 1);
 	EXPECT_EQ(employee_management.getEmployeeCount(), 0);
 }
@@ -217,8 +229,11 @@ TEST_F(TestEmployeeManagement, DeleteFail) {
 	ClSearch searcher;
 
 	EXPECT_EQ(employee_management.getEmployeeCount(), 6);
-	Inform info = { "cl", "CL5" };
-	EXPECT_EQ(employee_management.deleteEmployees(searcher, info)->size(), 0);
+
+	vector<Inform> informs;
+	informs.push_back({ "cl", "CL5" });
+	auto employee_list_cmd = cmd_factory.getCmd(Command::DEL);
+	EXPECT_EQ(employee_list_cmd->process(employee_management, searcher, informs)->size(), 0);
 	EXPECT_EQ(employee_management.getEmployeeCount(), 6);
 }
 
@@ -227,8 +242,10 @@ TEST_F(TestEmployeeManagement, Search) {
 	ClSearch searcher;
 	unique_ptr<vector<Employee>> employees;
 
-	Inform info = { "cl", "CL1" };
-	EXPECT_NO_THROW(employees = employee_management.searchEmployees(searcher, info));
+	vector<Inform> informs;
+	informs.push_back({ "cl", "CL1" });
+	auto employee_list_cmd = cmd_factory.getCmd(Command::SCH);
+	EXPECT_NO_THROW(employees = employee_list_cmd->process(employee_management, searcher, informs));
 	ASSERT_NE(employees, nullptr);
 	ASSERT_EQ(employees->size(), 2);
 	ASSERT_EQ((* employees)[0].cl, "CL1");
@@ -240,8 +257,10 @@ TEST_F(TestEmployeeManagement, Search) {
 TEST_F(TestEmployeeManagement, SearchFail) {
 	ClSearch searcher;
 
-	Inform info = { "cl", "CL5" };
-	EXPECT_EQ(employee_management.searchEmployees(searcher, info)->size(), 0);
+	vector<Inform> informs;
+	informs.push_back({ "cl", "CL5" });
+	auto employee_list_cmd = cmd_factory.getCmd(Command::SCH);
+	EXPECT_EQ(employee_list_cmd->process(employee_management, searcher, informs)->size(), 0);
 }
 
 TEST_F(TestEmployeeManagement, modifyEmployeeValue) {
@@ -286,20 +305,25 @@ TEST_F(TestEmployeeManagement, Modify) {
 	ClSearch searcher;
 	unique_ptr<vector<Employee>> employees;
 
-
-	Inform search_info = { "cl", "CL3" };
-	EXPECT_NO_THROW(employees = employee_management.searchEmployees(searcher, search_info));
+	vector<Inform> informs;
+	informs.push_back({ "cl", "CL3" });
+	auto employee_list_cmd = cmd_factory.getCmd(Command::SCH);
+	EXPECT_NO_THROW(employees = employee_list_cmd->process(employee_management, searcher, informs));
 	ASSERT_NE(employees, nullptr);
 	ASSERT_EQ(employees->size(), 1);
 
-	search_info = { "cl", "CL1" };
-	Inform modify_info = { "cl", "CL3" };
-	EXPECT_NO_THROW(employees = employee_management.modifyEmployees(searcher, search_info, modify_info));
+	informs.clear();
+	informs.push_back({ "cl", "CL1" });
+	informs.push_back({ "cl", "CL3" });
+	employee_list_cmd = cmd_factory.getCmd(Command::MOD);
+	EXPECT_NO_THROW(employees = employee_list_cmd->process(employee_management, searcher, informs));
 	ASSERT_NE(employees, nullptr);
 	ASSERT_EQ(employees->size(), 2);
 
-	search_info = { "cl", "CL3" };
-	EXPECT_NO_THROW(employees = employee_management.searchEmployees(searcher, search_info));
+	informs.clear();
+	informs.push_back({ "cl", "CL3" });
+	employee_list_cmd = cmd_factory.getCmd(Command::SCH);
+	EXPECT_NO_THROW(employees = employee_list_cmd->process(employee_management, searcher, informs));
 	ASSERT_NE(employees, nullptr);
 	ASSERT_EQ(employees->size(), 3);
 }
@@ -307,7 +331,10 @@ TEST_F(TestEmployeeManagement, Modify) {
 TEST_F(TestEmployeeManagement, ModifyFail) {
 	ClSearch searcher;
 
-	Inform search_info{ "aaa", "aaa" };
-	Inform modify_info{ "bbb", "bbb" };
-	EXPECT_EQ(employee_management.modifyEmployees(searcher, search_info, modify_info)->size(), 0);
+	vector<Inform> informs;
+	informs.clear();
+	informs.push_back({ "aaa", "aaa" });
+	informs.push_back({ "aaa", "aaa" });
+	auto employee_list_cmd = cmd_factory.getCmd(Command::MOD);
+	EXPECT_EQ(employee_list_cmd->process(employee_management, searcher, informs)->size(), 0);
 }
