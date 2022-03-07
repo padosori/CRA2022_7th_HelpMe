@@ -144,10 +144,6 @@ unique_ptr<vector<Employee>> EmployeeManagement::deleteEmployees(Search& searche
 	auto employees = make_unique<vector<Employee>>();
 	auto search_result = searcher.search(employee_map, info);
 
-	if (0 == search_result->size()) {
-		throw invalid_argument("Can't find Employee");
-	}
-
 	for (auto& employee : *search_result) {
 		employees->emplace_back(employee);
 		employee_map.erase(employee.employee_num);
@@ -168,10 +164,6 @@ unique_ptr<vector<Employee>> EmployeeManagement::searchEmployees(Search& searche
 unique_ptr<vector<Employee>> EmployeeManagement::modifyEmployees(Search& searcher, const Inform search_info, const Inform modify_info) {
 	auto employees = make_unique<vector<Employee>>();
 	auto search_result = searcher.search(employee_map, search_info);
-
-	if (0 == search_result->size()) {
-		throw invalid_argument("Can't find Employee");
-	}
 
 	for (auto& employee : *search_result) {
 		auto it = employee_map.find(employee.employee_num);
