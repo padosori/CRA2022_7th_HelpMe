@@ -39,61 +39,24 @@ unique_ptr<vector<Employee>> EmployeeManagement::processCmd(
 		}
 		return nullptr;
 	}
-	else if (command == Command::DEL) {
+	else if (command == Command::DEL || command == Command::MOD || command == Command::SCH) {
 		unique_ptr<vector<Employee>> result;
 
-		if (informs.size() != 1) {
-			cout << "Invalid argument error in deleteEmployees()" <<
+		if ((command == Command::DEL && informs.size() != 1) ||
+			(command == Command::SCH && informs.size() != 1) ||
+			(command == Command::MOD && informs.size() != 2)) {
+			cout << "Invalid argument error" <<
 				printCurrentCmd(command, options, informs) << endl;
 			return nullptr;
 		}
 
 		try {
 			auto searcher = search_factory.getSearch(informs[0].column);
-			result = deleteEmployees(*searcher, informs[0]);
+			auto employee_list_cmd = cmd_factory.getCmd(command);
+			result = employee_list_cmd->process(*this, *searcher, informs);
 		}
 		catch (exception& e) {
-			cout << "deleteEmployees() is failed: " << e.what() <<
-				printCurrentCmd(command, options, informs) << endl;
-			return nullptr;
-		}
-		return result;
-	}
-	else if (command == Command::MOD) {
-		unique_ptr<vector<Employee>> result;
-
-		if (informs.size() != 2) {
-			cout << "Invalid argument error in modifyEmployees()" <<
-				printCurrentCmd(command, options, informs) << endl;
-			return nullptr;
-		}
-
-		try {
-			auto searcher = search_factory.getSearch(informs[0].column);
-			result = modifyEmployees(*searcher, informs[0], informs[1]);
-		}
-		catch (exception& e) {
-			cout << "modifyEmployees() is failed: " << e.what() <<
-				printCurrentCmd(command, options, informs) << endl;
-			return nullptr;
-		}
-		return result;
-	}
-	else if (command == Command::SCH) {
-		unique_ptr<vector<Employee>> result;
-
-		if (informs.size() != 1) {
-			cout << "Invalid argument error in searchEmployees()" <<
-				printCurrentCmd(command, options, informs) << endl;
-			return nullptr;
-		}
-
-		try {
-			auto searcher = search_factory.getSearch(informs[0].column);
-			result = searchEmployees(*searcher, informs[0]);
-		}
-		catch (exception& e) {
-			cout << "searchEmployees() is failed: " << e.what() <<
+			cout << "processCmd() is failed: " << e.what() <<
 				printCurrentCmd(command, options, informs) << endl;
 			return nullptr;
 		}
@@ -136,40 +99,6 @@ void EmployeeManagement::addEmployee(unique_ptr<Employee> employee) {
 	if (insert(make_pair(employee->employee_num, move(employee))) == false) {
 		throw invalid_argument("fail to add employee");
 	}
-}
-
-unique_ptr<vector<Employee>> EmployeeManagement::deleteEmployees(Search& searcher, const Inform info) {
-	auto employees = make_unique<vector<Employee>>();
-	auto search_result = searcher.search(*this, info);
-
-	for (auto& employee : *search_result) {
-		employees->emplace_back(employee);
-		erase(employee.employee_num);
-	}
-	return move(employees);
-}
-
-unique_ptr<vector<Employee>> EmployeeManagement::searchEmployees(Search& searcher, const Inform info) {
-	auto employees = make_unique<vector<Employee>>();
-	auto search_result = searcher.search(*this, info);
-
-	for (auto& employee : *search_result) {
-		employees->emplace_back(employee);
-	}
-	return move(employees);
-}
-
-unique_ptr<vector<Employee>> EmployeeManagement::modifyEmployees(Search& searcher, const Inform search_info, const Inform modify_info) {
-	auto employees = make_unique<vector<Employee>>();
-	auto search_result = searcher.search(*this, search_info);
-
-	for (auto& employee : *search_result) {
-		if (auto found_employee = find(employee.employee_num)) {
-			employees->emplace_back(employee);
-			modifyEmployeeValue(*found_employee, modify_info);
-		}
-	}
-	return move(employees);
 }
 
 void EmployeeManagement::modifyEmployeeValue(Employee& employee, const Inform info) {

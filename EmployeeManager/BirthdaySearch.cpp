@@ -1,5 +1,4 @@
 #include "BirthdaySearch.h"
-#include "EmployeeManagement.h"
 
 unique_ptr<vector<Employee>> BirthdaySearch::search(EmployeeManagement& employee_mgmt, Inform condition) {
 	auto results = make_unique<vector<Employee>>();
