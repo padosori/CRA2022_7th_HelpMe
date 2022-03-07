@@ -49,9 +49,41 @@ TEST_F(TestEmployeeManagement, ProcessCMD) {
 	vector<Option> options;
 	vector<Inform> informs;
 
-	informs.emplace_back(Inform{"name", "Test Name"});
+	EXPECT_EQ(employee_management.getEmployeeCount(), 6);
+
+	informs.push_back(Inform{ "employeeNum", "12341234" });
+	informs.push_back(Inform{ "name", "GILDONG HONG" });
+	informs.push_back(Inform{ "phoneNum", "010-1234-1234" });
+	informs.push_back(Inform{ "birthday", "15000101" });
+	informs.push_back(Inform{ "cl", "CL2" });
+	informs.push_back(Inform{ "certi", "EX" });
 
 	EXPECT_NO_THROW(employee_management.processCmd(Command::ADD, options, informs));
+	EXPECT_EQ(employee_management.getEmployeeCount(), 7);
+
+	informs.clear();
+	informs.push_back(Inform{ "cl", "CL1" });
+	auto employees = employee_management.processCmd(Command::SCH, options, informs);
+	EXPECT_EQ((*employees).size(), 2);
+	EXPECT_EQ((*employees)[0].cl, "CL1");
+	EXPECT_EQ((*employees)[1].cl, "CL1");
+
+	informs.clear();
+	informs.push_back(Inform{ "cl", "CL1" });
+	informs.push_back(Inform{ "cl", "CL3" });
+	employees = employee_management.processCmd(Command::MOD, options, informs);
+	EXPECT_EQ((*employees).size(), 2);
+	EXPECT_EQ((*employees)[0].cl, "CL1");
+	EXPECT_EQ((*employees)[1].cl, "CL1");
+
+	informs.clear();
+	informs.push_back(Inform{ "cl", "CL3" });
+	employees = employee_management.processCmd(Command::DEL, options, informs);
+	EXPECT_EQ((*employees).size(), 3);
+	EXPECT_EQ((*employees)[0].cl, "CL3");
+	EXPECT_EQ((*employees)[1].cl, "CL3");
+	EXPECT_EQ((*employees)[2].cl, "CL3");
+	EXPECT_EQ(employee_management.getEmployeeCount(), 4);
 }
 
 TEST_F(TestEmployeeManagement, ProcessCMDException) {

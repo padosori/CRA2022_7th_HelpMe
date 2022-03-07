@@ -1,7 +1,9 @@
 #include <memory>
 #include <utility>
 #include <stdexcept>
+#include <iostream>
 #include "EmployeeManagement.h"
+#include "ClSearch.h"
 
 using namespace std;
 
@@ -19,20 +21,71 @@ unique_ptr<vector<Employee>> EmployeeManagement::processCmd(
 			else if (inform.column == "certi") { employee.certi = inform.value; }
 			else { throw invalid_argument("Invalid inform.column"); }
 		}
-		// TODO: call addEmployee(employee)
+
+		try {
+			addEmployee(employee);
+		} catch (exception& e)  {
+			cout << "addEmployee() is failed: " << e.what() << endl;
+			return nullptr;
+		}
 		return nullptr;
 	}
 	else if (command == Command::DEL) {
-		// TODO: call deleteEmployees(), return unique_ptr<Employee>
-		return nullptr;
+		unique_ptr<vector<Employee>> result;
+
+		if (informs.size() != 1) {
+			cout << "Invlaid argument error in deleteEmployees()" << endl;
+		}
+
+		// TODO: use Search factory
+		ClSearch searcher;
+
+		try {
+			result = deleteEmployees(searcher, informs[0]);
+		}
+		catch (exception& e) {
+			cout << "deleteEmployees() is failed: " << e.what() << endl;
+			return nullptr;
+		}
+		return result;
 	}
 	else if (command == Command::MOD) {
-		// TODO: call modifyEmployees(), return unique_ptr<Employee>
-		return nullptr;
+		unique_ptr<vector<Employee>> result;
+
+		if (informs.size() != 2) {
+			cout << "Invlaid argument error in modifyEmployees()" << endl;
+		}
+
+		// TODO: use Search factory
+		ClSearch searcher;
+
+		try {
+			result = modifyEmployees(searcher, informs[0], informs[1]);
+		}
+		catch (exception& e) {
+			cout << "modifyEmployees() is failed: " << e.what() << endl;
+			return nullptr;
+		}
+		return result;
 	}
 	else if (command == Command::SCH) {
-		// TODO: call searchEmployees(), return unique_ptr<Employee>
-		return nullptr;
+		unique_ptr<vector<Employee>> result;
+
+		if (informs.size() != 1) {
+			cout << "Invlaid argument error in searchEmployees()" << endl;
+		}
+
+		// TODO: use Search factory
+		ClSearch searcher;
+
+		try {
+			result = searchEmployees(searcher, informs[0]);
+		}
+		catch (exception& e) {
+			cout << "searchEmployees() is failed: " << e.what() << endl;
+			return nullptr;
+		}
+		return result;
 	}
 	throw invalid_argument("invalid command");
 }
