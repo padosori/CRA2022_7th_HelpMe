@@ -8,7 +8,7 @@ Command Parser::getCommand(string str) {
     else if (str == "DEL") { return Command::DEL; }
     else if (str == "SCH") { return Command::SCH; }
     else if (str == "MOD") { return Command::MOD; }
-    else { throw invalid_argument("invalid command"); }
+    else { throw invalid_argument("Parser::getCommand, invalid command:" + str); }
 }
 
 Option Parser::getOption(string str) {
@@ -19,7 +19,7 @@ Option Parser::getOption(string str) {
     else if (str == "-y") { return Option::YEAR; }
     else if (str == "-d") { return Option::DAY; }
     else if (str == " ") { return Option::NONE; }
-    else { throw invalid_argument("invalid option"); }
+    else { throw invalid_argument("Parser::getOption, Parser::getOption, invalid option:" + str); }
 }
 
 ParsedLine Parser::parseLine(string str_line) {
@@ -35,6 +35,7 @@ ParsedLine Parser::parseLine(string str_line) {
         }
         else if (i == 1 || i == 2 || i == 3) {
             parsed_line.options.emplace_back(getOption(word));
+            parsed_line.options_str.emplace_back(word);
         }
         else {
             if (parsed_line.command == Command::ADD) {
@@ -89,7 +90,7 @@ void Parser::addYearPrefix(string& str) {
     int year = stoi(year_str);
     if (year >= 0 && year <= 21) { str = "20" + str; }
     else if (year >= 69 && year <= 99) { str = "19" + str; }
-    else { throw invalid_argument("invalid year"); }
+    else { throw invalid_argument("Parser::addYearPrefix, invalid year:" + str); }
 }
 
 void Parser::transformParsedLineValue(ParsedLine& parsed_line) {
@@ -101,7 +102,20 @@ void Parser::transformParsedLineValue(ParsedLine& parsed_line) {
         if (parsed_line.informs[0].column == "employeeNum") { addYearPrefix(parsed_line.informs[0].value); }
         if (parsed_line.informs[1].column == "employeeNum") { addYearPrefix(parsed_line.informs[1].value); }
     }
-    else { throw invalid_argument("invalid value"); }
+    else { throw invalid_argument("Parser::transformParsedLineValue, invalid value" + makeStrParsedLine(parsed_line)); }
+}
+
+string Parser::makeStrParsedLine(ParsedLine parsed_line) {
+    string str;
+    str = parsed_line.command_str + ",";
+    for (auto option_str : parsed_line.options_str) {
+        str = str + option_str + ",";
+    }
+
+    for (auto inform : parsed_line.informs) {
+        str = str + inform.column + "," + inform.value + ",";
+    }
+    return str;
 }
 
 void Parser::transformParsedLineOption(ParsedLine& parsed_line) {

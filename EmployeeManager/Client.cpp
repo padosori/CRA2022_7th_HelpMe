@@ -6,7 +6,9 @@ void Client::readInputFile(const string file_name) {
     ifstream input_file;
 
     input_file.open(file_name);
-    if (!input_file.is_open()) { throw invalid_argument("fail to open a file"); }
+    if (!input_file.is_open()) {
+        throw invalid_argument("Client::readInputFile, fail to open a file:" + file_name);
+    }
 
     while (!input_file.eof()) {
         string str;
@@ -26,7 +28,9 @@ void Client::runAndWriteOutputFile(const string file_name) {
     unique_ptr<EmployeeManagement> employee_management = make_unique<EmployeeManagement>();
     ofstream output_file(file_name);
 
-    if (!output_file.is_open()) { throw invalid_argument("fail to open a file"); }
+    if (!output_file.is_open()) {
+        throw invalid_argument("Client::runAndWriteOutputFile, fail to open a file:" + file_name);
+    }
 
     for (auto parsed_line : *parsed_lines) {
         auto employees = move(employee_management->processCmd(

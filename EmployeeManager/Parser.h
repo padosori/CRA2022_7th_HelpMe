@@ -7,10 +7,12 @@
 using namespace std;
 
 struct ParsedLine {
-	string command_str;
 	Command command;
 	vector<Option> options;
 	vector<Inform> informs;
+
+	string command_str;
+	vector<string> options_str;
 };
 
 class Parser {
@@ -27,4 +29,5 @@ private:
 	void transformParsedLineValue(ParsedLine& parsed_line);
 	void transformParsedLineOption(ParsedLine& parsed_line);
 	void addYearPrefix(string& str);
+	string makeStrParsedLine(ParsedLine parsed_line);
 };
