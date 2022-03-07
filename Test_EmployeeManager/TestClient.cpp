@@ -6,7 +6,7 @@ using namespace std;
 
 TEST(TestClient, TestReadInputFileSuccess) {
 	Client client;
-	EXPECT_NO_THROW(client.readInputFile("input_20_20.txt"));
+	EXPECT_NO_THROW(client.readInputFile("../EmployeeManager/input_20_20.txt"));
 }
 
 TEST(TestClient, TestReadInputFileFail) {
@@ -16,14 +16,14 @@ TEST(TestClient, TestReadInputFileFail) {
 
 TEST(TestClient, TestParseInputFile) {
 	Client client;
-	EXPECT_NO_THROW(client.readInputFile("input_20_20.txt"));
+	EXPECT_NO_THROW(client.readInputFile("../EmployeeManager/input_20_20.txt"));
 	EXPECT_NO_THROW(client.parseInputFile());
 }
 
 TEST(TestClient, TestRun) {
 	Client client;
 
-	EXPECT_NO_THROW(client.readInputFile("input_20_20.txt"));
+	EXPECT_NO_THROW(client.readInputFile("../EmployeeManager/input_20_20.txt"));
 	EXPECT_NO_THROW(client.parseInputFile());
-	EXPECT_NO_THROW(client.runAndWriteOutputFile("output_20_20_unit_test_results.txt"));
+	EXPECT_NO_THROW(client.runAndWriteOutputFile("../EmployeeManager/output_20_20_unit_test_results.txt"));
 }
