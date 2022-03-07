@@ -36,12 +36,9 @@ unique_ptr<vector<Employee>> EmployeeManagement::processCmd(
 		if (informs.size() != 1) {
 			cout << "Invlaid argument error in deleteEmployees()" << endl;
 		}
-
-		// TODO: use Search factory
-		ClSearch searcher;
-
 		try {
-			result = deleteEmployees(searcher, informs[0]);
+			auto searcher = search_factory.getSearch(informs[0].column);
+			result = deleteEmployees(*searcher, informs[0]);
 		}
 		catch (exception& e) {
 			cout << "deleteEmployees() is failed: " << e.what() << endl;
@@ -56,11 +53,9 @@ unique_ptr<vector<Employee>> EmployeeManagement::processCmd(
 			cout << "Invlaid argument error in modifyEmployees()" << endl;
 		}
 
-		// TODO: use Search factory
-		ClSearch searcher;
-
 		try {
-			result = modifyEmployees(searcher, informs[0], informs[1]);
+			auto searcher = search_factory.getSearch(informs[0].column);
+			result = modifyEmployees(*searcher, informs[0], informs[1]);
 		}
 		catch (exception& e) {
 			cout << "modifyEmployees() is failed: " << e.what() << endl;
@@ -75,11 +70,9 @@ unique_ptr<vector<Employee>> EmployeeManagement::processCmd(
 			cout << "Invlaid argument error in searchEmployees()" << endl;
 		}
 
-		// TODO: use Search factory
-		ClSearch searcher;
-
 		try {
-			result = searchEmployees(searcher, informs[0]);
+			auto searcher = search_factory.getSearch(informs[0].column);
+			result = searchEmployees(*searcher, informs[0]);
 		}
 		catch (exception& e) {
 			cout << "searchEmployees() is failed: " << e.what() << endl;
