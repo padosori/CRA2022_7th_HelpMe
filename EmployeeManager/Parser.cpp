@@ -1,5 +1,7 @@
 #include <sstream>
 #include "Parser.h"
+#include <iostream>
+using namespace std;
 
 Command Parser::getCommand(string str) {
     if (str == "ADD") { return Command::ADD; }
@@ -47,6 +49,30 @@ ParsedLine Parser::parseLine(string str_line) {
     return parsed_line;
 }
 
+void Parser::addMoreInform(ParsedLine& parsed_line) {
+    if (parsed_line.command == Command::ADD) {
+        stringstream name_stream(parsed_line.informs[1].value);
+        string name_first, name_last;
+        getline(name_stream, name_first, ' ');
+        getline(name_stream, name_last, ' ');
+        parsed_line.informs.emplace_back(Inform{ "name_first", name_first });
+        parsed_line.informs.emplace_back(Inform{ "name_last", name_last });
+        
+        stringstream phone_num_stream(parsed_line.informs[3].value);
+        string phone_num_first, phone_num_middle, phone_num_last;
+        getline(phone_num_stream, phone_num_first, '-');
+        getline(phone_num_stream, phone_num_middle, '-');
+        getline(phone_num_stream, phone_num_last, '-');
+        parsed_line.informs.emplace_back(Inform{ "phoneNum_middle", phone_num_middle });
+        parsed_line.informs.emplace_back(Inform{ "phoneNum_last", phone_num_last });
+
+        string birthday = parsed_line.informs[4].value;
+        parsed_line.informs.emplace_back(Inform{ "birthday_year", birthday.substr(0, 4) });
+        parsed_line.informs.emplace_back(Inform{ "birthday_month", birthday.substr(4, 2) });
+        parsed_line.informs.emplace_back(Inform{ "birthday_day", birthday.substr(6, 2) });
+    }
+}
+
 void Parser::transformParsedLineCommand(ParsedLine& parsed_line) {
     if (parsed_line.command == Command::ADD) {
         parsed_line.informs[0].column = "employeeNum";
@@ -56,6 +82,26 @@ void Parser::transformParsedLineCommand(ParsedLine& parsed_line) {
         parsed_line.informs[4].column = "birthday";
         parsed_line.informs[5].column = "certi";
     }
+}
+
+void Parser::addYearPrefix(string& str) {
+    string year_str = str.substr(0, 2);
+    int year = stoi(year_str);
+    if (year >= 0 && year <= 21) { str = "20" + str; }
+    else if (year >= 69 && year <= 99) { str = "19" + str; }
+    else { throw invalid_argument("invalid year"); }
+}
+
+void Parser::transformParsedLineValue(ParsedLine& parsed_line) {
+    if (parsed_line.command == Command::ADD) { addYearPrefix(parsed_line.informs[0].value); }
+    else if (parsed_line.command == Command::DEL || parsed_line.command == Command::SCH) {
+        if (parsed_line.informs[0].column == "employeeNum") { addYearPrefix(parsed_line.informs[0].value); }
+    }
+    else if (parsed_line.command == Command::MOD) {
+        if (parsed_line.informs[0].column == "employeeNum") { addYearPrefix(parsed_line.informs[0].value); }
+        if (parsed_line.informs[1].column == "employeeNum") { addYearPrefix(parsed_line.informs[1].value); }
+    }
+    else { throw invalid_argument("invalid value"); }
 }
 
 void Parser::transformParsedLineOption(ParsedLine& parsed_line) {
@@ -80,7 +126,9 @@ void Parser::transformParsedLineOption(ParsedLine& parsed_line) {
 
 void Parser::transformParsedLine(ParsedLine& parsed_line) {
     transformParsedLineCommand(parsed_line);
+    transformParsedLineValue(parsed_line);
     transformParsedLineOption(parsed_line);
+    addMoreInform(parsed_line);
 }
 
 unique_ptr<vector<ParsedLine>> Parser::parse(const vector<string>& str) {
