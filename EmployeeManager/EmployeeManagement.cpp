@@ -16,9 +16,16 @@ unique_ptr<vector<Employee>> EmployeeManagement::processCmd(
 		for (auto inform : informs) {
 			if (inform.column == "employeeNum") { employee->employee_num = inform.value; }
 			else if (inform.column == "name") { employee->name = inform.value; }
+			else if (inform.column == "name_first") { employee->first_name = inform.value; }
+			else if (inform.column == "name_last") { employee->last_name = inform.value; }
 			else if (inform.column == "cl") { employee->cl = inform.value; }
 			else if (inform.column == "phoneNum") { employee->phone_num = inform.value; }
+			else if (inform.column == "phoneNum_middle") { employee->mid_phone_num = inform.value; }
+			else if (inform.column == "phoneNum_last") { employee->last_phone_num = inform.value; }
 			else if (inform.column == "birthday") { employee->birthday = inform.value; }
+			else if (inform.column == "birthday_year") { employee->birthday_year = inform.value; }
+			else if (inform.column == "birthday_month") { employee->birthday_month = inform.value; }
+			else if (inform.column == "birthday_day") { employee->birthday_day = inform.value; }
 			else if (inform.column == "certi") { employee->certi = inform.value; }
 			else { throw invalid_argument("Invalid inform.column"); }
 		}

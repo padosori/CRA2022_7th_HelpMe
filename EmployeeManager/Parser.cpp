@@ -47,6 +47,30 @@ ParsedLine Parser::parseLine(string str_line) {
     return parsed_line;
 }
 
+void Parser::addMoreInform(ParsedLine& parsed_line) {
+    if (parsed_line.command == Command::ADD) {
+        stringstream name_stream(parsed_line.informs[1].value);
+        string name_first, name_last;
+        getline(name_stream, name_first, ' ');
+        getline(name_stream, name_last, ' ');
+        parsed_line.informs.emplace_back(Inform{ "name_first", name_first });
+        parsed_line.informs.emplace_back(Inform{ "name_last", name_last });
+        
+        stringstream phone_num_stream(parsed_line.informs[3].value);
+        string phone_num_first, phone_num_middle, phone_num_last;
+        getline(phone_num_stream, phone_num_first, '-');
+        getline(phone_num_stream, phone_num_middle, '-');
+        getline(phone_num_stream, phone_num_last, '-');
+        parsed_line.informs.emplace_back(Inform{ "phoneNum_middle", phone_num_middle });
+        parsed_line.informs.emplace_back(Inform{ "phoneNum_last", phone_num_last });
+
+        string birthday = parsed_line.informs[4].value;
+        parsed_line.informs.emplace_back(Inform{ "birthday_year", birthday.substr(0, 4) });
+        parsed_line.informs.emplace_back(Inform{ "birthday_month", birthday.substr(4, 2) });
+        parsed_line.informs.emplace_back(Inform{ "birthday_day", birthday.substr(6, 2) });
+    }
+}
+
 void Parser::transformParsedLineCommand(ParsedLine& parsed_line) {
     if (parsed_line.command == Command::ADD) {
         parsed_line.informs[0].column = "employeeNum";
@@ -81,6 +105,7 @@ void Parser::transformParsedLineOption(ParsedLine& parsed_line) {
 void Parser::transformParsedLine(ParsedLine& parsed_line) {
     transformParsedLineCommand(parsed_line);
     transformParsedLineOption(parsed_line);
+    addMoreInform(parsed_line);
 }
 
 unique_ptr<vector<ParsedLine>> Parser::parse(const vector<string>& str) {
