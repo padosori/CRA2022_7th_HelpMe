@@ -5,6 +5,7 @@
 #include <vector>
 #include "Employee.h"
 #include "Search.h"
+#include "SearchFactory.h"
 
 using namespace std;
 
@@ -27,4 +28,5 @@ public:
 	void clearEmployee();
 private:
 	EmployeeMap employee_map;
+	SearchFactory search_factory;
 };
