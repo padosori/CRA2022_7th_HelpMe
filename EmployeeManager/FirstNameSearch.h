@@ -4,5 +4,5 @@
 
 class FirstNameSearch : public Search {
 public:
-	virtual unique_ptr<vector<Employee>> search(map<std::string, Employee>& employee_map, Inform condition) override;
+	virtual unique_ptr<vector<Employee>> search(EmployeeMap& employee_map, Inform condition) override;
 };

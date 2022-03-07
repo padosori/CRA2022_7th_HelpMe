@@ -1,6 +1,6 @@
 #include "BirthdayYearSearch.h"
 
-unique_ptr<vector<Employee>> BirthdayYearSearch::search(map<std::string, Employee>& employee_map, Inform condition) {
+unique_ptr<vector<Employee>> BirthdayYearSearch::search(EmployeeMap& employee_map, Inform condition) {
 	auto results = make_unique<vector<Employee>>();
 	results->clear();
 
@@ -9,8 +9,8 @@ unique_ptr<vector<Employee>> BirthdayYearSearch::search(map<std::string, Employe
 	}
 
 	for (auto& employee : employee_map) {
-		if (employee.second.birthday_year == condition.value) {
-			results->emplace_back(employee.second);
+		if (employee.second->birthday_year == condition.value) {
+			results->emplace_back(*(employee.second));
 		}
 	}
 

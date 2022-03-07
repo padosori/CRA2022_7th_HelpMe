@@ -1,5 +1,7 @@
 #pragma once
 #include <string>
+#include <map>
+
 using namespace std;
 
 struct Inform {
@@ -25,6 +27,8 @@ struct Employee {
 	string cl;
 	string certi;
 };
+
+using EmployeeMap = map<string, unique_ptr<Employee>>;
 
 enum class Command {
 	ADD,
