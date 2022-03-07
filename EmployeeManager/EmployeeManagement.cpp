@@ -116,10 +116,6 @@ unique_ptr<vector<Employee>> EmployeeManagement::searchEmployees(Search& searche
 	auto employees = make_unique<vector<Employee>>();
 	auto search_result = searcher.search(employee_map, info);
 
-	if (0 == search_result->size()) {
-		throw invalid_argument("Can't find Employee");
-	}
-
 	for (auto& employee : *search_result) {
 		employees->emplace_back(employee);
 	}

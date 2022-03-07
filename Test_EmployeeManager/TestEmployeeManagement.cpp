@@ -225,7 +225,7 @@ TEST_F(TestEmployeeManagement, SearchFail) {
 	ClSearch searcher;
 
 	Inform info = { "cl", "CL5" };
-	EXPECT_THROW(employee_management.searchEmployees(searcher, info), invalid_argument);
+	EXPECT_EQ(employee_management.searchEmployees(searcher, info)->size(), 0);
 }
 
 TEST_F(TestEmployeeManagement, modifyEmployeeValue) {
