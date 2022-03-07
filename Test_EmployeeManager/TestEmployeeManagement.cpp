@@ -218,7 +218,7 @@ TEST_F(TestEmployeeManagement, DeleteFail) {
 
 	EXPECT_EQ(employee_management.getEmployeeCount(), 6);
 	Inform info = { "cl", "CL5" };
-	EXPECT_THROW(employee_management.deleteEmployees(searcher, info), invalid_argument);
+	EXPECT_EQ(employee_management.deleteEmployees(searcher, info)->size(), 0);
 	EXPECT_EQ(employee_management.getEmployeeCount(), 6);
 }
 
@@ -309,5 +309,5 @@ TEST_F(TestEmployeeManagement, ModifyFail) {
 
 	Inform search_info{ "aaa", "aaa" };
 	Inform modify_info{ "bbb", "bbb" };
-	EXPECT_THROW(employee_management.modifyEmployees(searcher, search_info, modify_info), invalid_argument);
+	EXPECT_EQ(employee_management.modifyEmployees(searcher, search_info, modify_info)->size(), 0);
 }
