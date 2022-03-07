@@ -9,7 +9,7 @@ unique_ptr<vector<Employee>> BirthdayYearSearch::search(EmployeeMap& employee_ma
 	}
 
 	for (auto& employee : employee_map) {
-		if (employee.second->birthday_year == condition.value) {
+		if (employee.second != nullptr && employee.second->birthday_year == condition.value) {
 			results->emplace_back(*(employee.second));
 		}
 	}

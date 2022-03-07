@@ -9,7 +9,7 @@ unique_ptr<vector<Employee>> CertiSearch::search(EmployeeMap& employee_map, Info
 	}
 
 	for (auto& employee : employee_map) {
-		if (employee.second->certi == condition.value) {
+		if (employee.second != nullptr && employee.second->certi == condition.value) {
 			results->emplace_back(*(employee.second));
 		}
 	}
