@@ -9,7 +9,7 @@ unique_ptr<vector<Employee>> ClSearch::search(EmployeeMap& employee_map, Inform 
 	}
 
 	for (auto& employee : employee_map) {
-		if (employee.second->cl == condition.value) {
+		if (employee.second != nullptr && employee.second->cl == condition.value) {
 			results->emplace_back(*(employee.second));
 		}
 	}
