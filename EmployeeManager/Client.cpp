@@ -21,14 +21,15 @@ void Client::parseInputFile(void) {
     parsed_lines = parser.parse(raw_lines);
 }
 
+// TODO: refactoring, divide runAndWriteOutputFile() into two methods, if possible
 void Client::runAndWriteOutputFile(const string file_name) {
-    EmployeeManagement employee_management;
+    unique_ptr<EmployeeManagement> employee_management = make_unique<EmployeeManagement>();
     ofstream output_file("../EmployeeManager/" + file_name);
 
     if (!output_file.is_open()) { throw invalid_argument("fail to open a file"); }
 
     for (auto parsed_line : *parsed_lines) {
-        auto employees = move(employee_management.processCmd(
+        auto employees = move(employee_management->processCmd(
             parsed_line.command, parsed_line.options, parsed_line.informs));
 
         if (parsed_line.command == Command::ADD) { continue; }
@@ -40,7 +41,7 @@ void Client::runAndWriteOutputFile(const string file_name) {
         if (parsed_line.options[0] != Option::PRINT) { output_file << employees->size() << endl; continue; }
         
         // TODO: Check if this counter works well
-        int cnt = 1;
+        size_t cnt = 1;
         for (auto employee : *employees) {
             output_file << employee.employee_num << "," << employee.name << "," << employee.cl << ","
                 << employee.phone_num << "," << employee.birthday << "," << employee.certi << endl;
