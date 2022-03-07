@@ -14,7 +14,7 @@ TEST(TestParser, TestParseAdd) {
 	EXPECT_EQ(parsed_file_vector->at(0).options[1], Option::NONE);
 	EXPECT_EQ(parsed_file_vector->at(0).options[2], Option::NONE);
 	EXPECT_STREQ(parsed_file_vector->at(0).informs[0].column.c_str(), "employeeNum");
-	EXPECT_STREQ(parsed_file_vector->at(0).informs[0].value.c_str(), "15123099");
+	EXPECT_STREQ(parsed_file_vector->at(0).informs[0].value.c_str(), "2015123099");
 	EXPECT_STREQ(parsed_file_vector->at(0).informs[1].column.c_str(), "name");
 	EXPECT_STREQ(parsed_file_vector->at(0).informs[1].value.c_str(), "VXIHXOTH JHOP");
 	EXPECT_STREQ(parsed_file_vector->at(0).informs[2].column.c_str(), "cl");
@@ -72,7 +72,7 @@ TEST(TestParser, TestParseDelete) {
 	EXPECT_EQ(parsed_file_vector->at(0).options[1], Option::NONE);
 	EXPECT_EQ(parsed_file_vector->at(0).options[2], Option::NONE);
 	EXPECT_STREQ(parsed_file_vector->at(0).informs[0].column.c_str(), "employeeNum");
-	EXPECT_STREQ(parsed_file_vector->at(0).informs[0].value.c_str(), "18115040");
+	EXPECT_STREQ(parsed_file_vector->at(0).informs[0].value.c_str(), "2018115040");
 }
 
 TEST(TestParser, TestParseDeleteName) {
@@ -246,7 +246,7 @@ TEST(TestParser, TestParseDeleteEmployeeNum) {
 	EXPECT_EQ(parsed_file_vector->at(0).options[1], Option::NONE);
 	EXPECT_EQ(parsed_file_vector->at(0).options[2], Option::NONE);
 	EXPECT_STREQ(parsed_file_vector->at(0).informs[0].column.c_str(), "employeeNum");
-	EXPECT_STREQ(parsed_file_vector->at(0).informs[0].value.c_str(), "18115040");
+	EXPECT_STREQ(parsed_file_vector->at(0).informs[0].value.c_str(), "2018115040");
 }
 
 TEST(TestParser, TestParseDeleteCerti) {

@@ -24,5 +24,7 @@ private:
 	void addMoreInform(ParsedLine& parsed_line);
 	void transformParsedLine(ParsedLine& parsed_line);
 	void transformParsedLineCommand(ParsedLine& parsed_line);
+	void transformParsedLineValue(ParsedLine& parsed_line);
 	void transformParsedLineOption(ParsedLine& parsed_line);
+	void addYearPrefix(string& str);
 };

@@ -43,7 +43,7 @@ void Client::runAndWriteOutputFile(const string file_name) {
         // TODO: Check if this counter works well
         size_t cnt = 1;
         for (auto employee : *employees) {
-            output_file << employee.employee_num << "," << employee.name << "," << employee.cl << ","
+            output_file << employee.employee_num.substr(2, 8) << "," << employee.name << "," << employee.cl << ","
                 << employee.phone_num << "," << employee.birthday << "," << employee.certi << endl;
             if (++cnt > MAX_PRINT_LINES) break;
         }

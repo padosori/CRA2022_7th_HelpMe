@@ -1,5 +1,7 @@
 #include <sstream>
 #include "Parser.h"
+#include <iostream>
+using namespace std;
 
 Command Parser::getCommand(string str) {
     if (str == "ADD") { return Command::ADD; }
@@ -82,6 +84,26 @@ void Parser::transformParsedLineCommand(ParsedLine& parsed_line) {
     }
 }
 
+void Parser::addYearPrefix(string& str) {
+    string year_str = str.substr(0, 2);
+    int year = stoi(year_str);
+    if (year >= 0 && year <= 21) { str = "20" + str; }
+    else if (year >= 69 && year <= 99) { str = "19" + str; }
+    else { throw invalid_argument("invalid year"); }
+}
+
+void Parser::transformParsedLineValue(ParsedLine& parsed_line) {
+    if (parsed_line.command == Command::ADD) { addYearPrefix(parsed_line.informs[0].value); }
+    else if (parsed_line.command == Command::DEL || parsed_line.command == Command::SCH) {
+        if (parsed_line.informs[0].column == "employeeNum") { addYearPrefix(parsed_line.informs[0].value); }
+    }
+    else if (parsed_line.command == Command::MOD) {
+        if (parsed_line.informs[0].column == "employeeNum") { addYearPrefix(parsed_line.informs[0].value); }
+        if (parsed_line.informs[1].column == "employeeNum") { addYearPrefix(parsed_line.informs[1].value); }
+    }
+    else { throw invalid_argument("invalid value"); }
+}
+
 void Parser::transformParsedLineOption(ParsedLine& parsed_line) {
     if (parsed_line.options[1] == Option::FIRST_NAME) {
         if (parsed_line.informs[0].column == "name") { parsed_line.informs[0].column = "name_first"; }
@@ -104,6 +126,7 @@ void Parser::transformParsedLineOption(ParsedLine& parsed_line) {
 
 void Parser::transformParsedLine(ParsedLine& parsed_line) {
     transformParsedLineCommand(parsed_line);
+    transformParsedLineValue(parsed_line);
     transformParsedLineOption(parsed_line);
     addMoreInform(parsed_line);
 }
