@@ -5,7 +5,7 @@
 using TestEmployeeNumSearch = TestSearch;
 TEST_F(TestEmployeeNumSearch, TestSearchItem) {
 	auto searcher = make_unique<EmployeeNumSearch>();
-	Inform inform = { "employeeNum","00112233" };
+	Inform inform = { "employeeNum","2000112233" };
 	auto result = searcher->search(*employeeMap, inform);
 	EXPECT_EQ(1, result->size());
 }

@@ -17,9 +17,9 @@ TEST_F(TestLastNameSearch, TestSearchManyItem) {
 	Inform inform = { "name_last", "Hong" };
 	auto result = searcher->search(*employeeMap, inform);
 	EXPECT_EQ(3, result->size());
-	EXPECT_EQ("00112233", (*result)[0].employee_num); 
-	EXPECT_EQ("01001122", (*result)[1].employee_num);
-	EXPECT_EQ("99112233", (*result)[2].employee_num);
+	EXPECT_EQ("1999112233", (*result)[0].employee_num);
+	EXPECT_EQ("2000112233", (*result)[1].employee_num); 
+	EXPECT_EQ("2001001122", (*result)[2].employee_num);
 }
 
 TEST_F(TestLastNameSearch, TestWrongName) {
