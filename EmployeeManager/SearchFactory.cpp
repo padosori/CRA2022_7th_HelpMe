@@ -1,5 +1,23 @@
 #include "SearchFactory.h"
+#include "NameSearch.h"
+#include "FirstNameSearch.h"
+#include "LastNameSearch.h"
+
+#include "PhoneNumSearch.h"
+#include "MiddlePhoneNumSearch.h"
+#include "LastPhoneNumSearch.h"
+
+#include "BirthdaySearch.h"
+#include "BirthdayYearSearch.h"
+#include "BirthdayMonthSearch.h"
+#include "BirthdayDaySearch.h"
+
+#include "EmployeeNumSearch.h"
+#include "CertiSearch.h"
+#include "ClSearch.h"
+
 #include <stdexcept>
+
 std::unique_ptr<Search> SearchFactory::getSearch(std::string column)
 {
 	if (column == "name") { return std::make_unique<NameSearch>(); }
