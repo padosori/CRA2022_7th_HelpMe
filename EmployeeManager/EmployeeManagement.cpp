@@ -26,7 +26,8 @@ unique_ptr<vector<Employee>> EmployeeManagement::processCmd(
 		try {
 			addEmployee(move(employee));
 		} catch (exception& e)  {
-			cout << "addEmployee() is failed: " << e.what() << endl;
+			cout << "addEmployee() is failed: " << e.what() <<
+				printCurrentCmd(command, options, informs) << endl;
 			return nullptr;
 		}
 		return nullptr;
@@ -35,14 +36,18 @@ unique_ptr<vector<Employee>> EmployeeManagement::processCmd(
 		unique_ptr<vector<Employee>> result;
 
 		if (informs.size() != 1) {
-			cout << "Invlaid argument error in deleteEmployees()" << endl;
+			cout << "Invalid argument error in deleteEmployees()" <<
+				printCurrentCmd(command, options, informs) << endl;
+			return nullptr;
 		}
+
 		try {
 			auto searcher = search_factory.getSearch(informs[0].column);
 			result = deleteEmployees(*searcher, informs[0]);
 		}
 		catch (exception& e) {
-			cout << "deleteEmployees() is failed: " << e.what() << endl;
+			cout << "deleteEmployees() is failed: " << e.what() <<
+				printCurrentCmd(command, options, informs) << endl;
 			return nullptr;
 		}
 		return result;
@@ -51,7 +56,9 @@ unique_ptr<vector<Employee>> EmployeeManagement::processCmd(
 		unique_ptr<vector<Employee>> result;
 
 		if (informs.size() != 2) {
-			cout << "Invlaid argument error in modifyEmployees()" << endl;
+			cout << "Invalid argument error in modifyEmployees()" <<
+				printCurrentCmd(command, options, informs) << endl;
+			return nullptr;
 		}
 
 		try {
@@ -59,7 +66,8 @@ unique_ptr<vector<Employee>> EmployeeManagement::processCmd(
 			result = modifyEmployees(*searcher, informs[0], informs[1]);
 		}
 		catch (exception& e) {
-			cout << "modifyEmployees() is failed: " << e.what() << endl;
+			cout << "modifyEmployees() is failed: " << e.what() <<
+				printCurrentCmd(command, options, informs) << endl;
 			return nullptr;
 		}
 		return result;
@@ -68,7 +76,9 @@ unique_ptr<vector<Employee>> EmployeeManagement::processCmd(
 		unique_ptr<vector<Employee>> result;
 
 		if (informs.size() != 1) {
-			cout << "Invlaid argument error in searchEmployees()" << endl;
+			cout << "Invalid argument error in searchEmployees()" <<
+				printCurrentCmd(command, options, informs) << endl;
+			return nullptr;
 		}
 
 		try {
@@ -76,12 +86,38 @@ unique_ptr<vector<Employee>> EmployeeManagement::processCmd(
 			result = searchEmployees(*searcher, informs[0]);
 		}
 		catch (exception& e) {
-			cout << "searchEmployees() is failed: " << e.what() << endl;
+			cout << "searchEmployees() is failed: " << e.what() <<
+				printCurrentCmd(command, options, informs) << endl;
 			return nullptr;
 		}
 		return result;
 	}
 	throw invalid_argument("invalid command");
+}
+
+string EmployeeManagement::printCurrentCmd(Command command, vector<Option> options, vector<Inform> informs) {
+	string buffer;
+
+	buffer += " CMD:";
+	if (Command::ADD == command) { buffer += "ADD";  }
+	else if (Command::DEL == command) { buffer += "DEL"; }
+	else if (Command::SCH == command) { buffer += "SCH"; }
+	else if (Command::MOD == command) { buffer += "MOD"; }
+	else { buffer += "Unknown"; };
+
+	buffer += ", op(";
+	for (auto option : options) {
+		buffer += string(to_string(static_cast<int>(option))) + ", ";
+	}
+
+	buffer += "), info(";
+	for (auto inform : informs) {
+		buffer += inform.column + "=";
+		buffer += inform.value + ", ";
+	}
+	buffer += ")";
+
+	return buffer;
 }
 
 void EmployeeManagement::addEmployee(unique_ptr<Employee> employee) {

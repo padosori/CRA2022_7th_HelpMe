@@ -26,7 +26,10 @@ public:
 	const size_t getEmployeeCount() const;
 
 	void clearEmployee();
+
+	string printCurrentCmd(Command command, vector<Option> options, vector<Inform> informs);
 private:
+
 	EmployeeMap employee_map;
 	SearchFactory search_factory;
 };
