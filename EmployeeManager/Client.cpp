@@ -2,6 +2,9 @@
 #include "EmployeeManagement.h"
 #include <fstream>
 
+#include <iostream>
+using namespace std;
+
 void Client::readInputFile(const string file_name) {
     ifstream input_file;
 
@@ -13,7 +16,7 @@ void Client::readInputFile(const string file_name) {
     while (!input_file.eof()) {
         string str;
         getline(input_file, str);
-        raw_lines.emplace_back(str);
+        if (str.size() > 10) { raw_lines.emplace_back(str); }
     }
     input_file.close();
 }
