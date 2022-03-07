@@ -1,18 +1,9 @@
 #include "ClSearch.h"
 
-unique_ptr<vector<Employee>> ClSearch::search(EmployeeMap& employee_map, Inform condition) {
-	auto results = make_unique<vector<Employee>>();
-	results->clear();
+bool ClSearch::isCorrectColumn(string condition_column) {
+	return(condition_column == "cl");
+}
 
-	if (condition.column != "cl") {
-		return move(results);
-	}
-
-	for (auto& employee : employee_map) {
-		if (employee.second != nullptr && employee.second->cl == condition.value) {
-			results->emplace_back(*(employee.second));
-		}
-	}
-
-	return move(results);
+bool ClSearch::isMatched(Employee& employee, string condition_value) {
+	return(employee.cl == condition_value);
 }

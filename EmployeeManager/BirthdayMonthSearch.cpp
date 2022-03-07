@@ -1,18 +1,9 @@
 #include "BirthdayMonthSearch.h"
 
-unique_ptr<vector<Employee>> BirthdayMonthSearch::search(EmployeeMap& employee_map, Inform condition) {
-	auto results = make_unique<vector<Employee>>();
-	results->clear();
+bool BirthdayMonthSearch::isCorrectColumn(string condition_column) {
+	return(condition_column == "birthday_month");
+}
 
-	if (condition.column != "birthday_month") {
-		return move(results);
-	}
-
-	for (auto& employee : employee_map) {
-		if (employee.second != nullptr && employee.second->birthday_month == condition.value) {
-			results->emplace_back(*(employee.second));
-		}
-	}
-
-	return move(results);
+bool BirthdayMonthSearch::isMatched(Employee& employee, string condition_value) {
+	return(employee.birthday_month == condition_value);
 }

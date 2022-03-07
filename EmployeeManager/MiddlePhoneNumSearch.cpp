@@ -1,12 +1,9 @@
 #include "MiddlePhoneNumSearch.h"
 
-unique_ptr<vector<Employee>> MiddlePhoneNumSearch::search(EmployeeMap& employee_map, Inform condition)
-{
-	auto result = std::make_unique<vector<Employee>>();
-	result->clear();
-	if (condition.column != "phoneNum_middle") return move(result);
-	for (auto& employee : employee_map) {
-		if (employee.second != nullptr && employee.second->mid_phone_num == condition.value) result->emplace_back(*(employee.second));
-	}
-	return move(result);
+bool MiddlePhoneNumSearch::isCorrectColumn(string condition_column) {
+	return(condition_column == "phoneNum_middle");
+}
+
+bool MiddlePhoneNumSearch::isMatched(Employee& employee, string condition_value) {
+	return(employee.mid_phone_num == condition_value);
 }

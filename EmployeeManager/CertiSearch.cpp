@@ -1,18 +1,10 @@
 #include "CertiSearch.h"
 
-unique_ptr<vector<Employee>> CertiSearch::search(EmployeeMap& employee_map, Inform condition) {
-	auto results = make_unique<vector<Employee>>();
-	results->clear();
-
-	if (condition.column != "certi") {
-		return move(results);
-	}
-
-	for (auto& employee : employee_map) {
-		if (employee.second != nullptr && employee.second->certi == condition.value) {
-			results->emplace_back(*(employee.second));
-		}
-	}
-
-	return move(results);
+bool CertiSearch::isCorrectColumn(string condition_column) {
+	return(condition_column == "certi");
 }
+
+bool CertiSearch::isMatched(Employee& employee, string condition_value) {
+	return(employee.certi == condition_value);
+}
+

@@ -3,6 +3,8 @@
 #include "Employee.h"
 
 class LastPhoneNumSearch : public Search {
-public:
-	virtual unique_ptr<vector<Employee>> search(EmployeeMap& employee_map, Inform condition) override;
+protected:
+	virtual bool isCorrectColumn(string condition_column) override;
+	virtual bool isMatched(Employee& employee, string condition_value) override;
 };
+

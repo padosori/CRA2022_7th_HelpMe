@@ -1,11 +1,9 @@
 #include "NameSearch.h"
 
-unique_ptr<vector<Employee>> NameSearch::search(EmployeeMap& employee_map, Inform condition) {
-	auto result = std::make_unique<vector<Employee>>();
-	result->clear();
-	if (condition.column != "name") return move(result);
-	for (auto& employee : employee_map) {
-		if (employee.second != nullptr && employee.second->name == condition.value) result->emplace_back(*(employee.second));
-	}
-	return move(result);
+bool NameSearch::isCorrectColumn(string condition_column) {
+	return(condition_column == "name");
+}
+
+bool NameSearch::isMatched(Employee& employee, string condition_value) {
+	return(employee.name == condition_value);
 }
