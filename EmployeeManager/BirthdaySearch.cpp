@@ -1,6 +1,7 @@
 #include "BirthdaySearch.h"
+#include "EmployeeManagement.h"
 
-unique_ptr<vector<Employee>> BirthdaySearch::search(EmployeeMap& employee_map, Inform condition) {
+unique_ptr<vector<Employee>> BirthdaySearch::search(EmployeeManagement& employee_mgmt, Inform condition) {
 	auto results = make_unique<vector<Employee>>();
 	results->clear();
 
@@ -8,7 +9,7 @@ unique_ptr<vector<Employee>> BirthdaySearch::search(EmployeeMap& employee_map, I
 		return move(results);
 	}
 
-	for (auto& employee : employee_map) {
+	for (auto& employee : employee_mgmt.getMap()) {
 		if (employee.second != nullptr && employee.second->birthday == condition.value) {
 			results->emplace_back(*(employee.second));
 		}
