@@ -1,6 +1,6 @@
 #include "CertiSearch.h"
 
-unique_ptr<vector<Employee>> CertiSearch::search(map<std::string, Employee>& employee_map, Inform condition) {
+unique_ptr<vector<Employee>> CertiSearch::search(EmployeeMap& employee_map, Inform condition) {
 	auto results = make_unique<vector<Employee>>();
 	results->clear();
 
@@ -9,8 +9,8 @@ unique_ptr<vector<Employee>> CertiSearch::search(map<std::string, Employee>& emp
 	}
 
 	for (auto& employee : employee_map) {
-		if (employee.second.certi == condition.value) {
-			results->emplace_back(employee.second);
+		if (employee.second->certi == condition.value) {
+			results->emplace_back(*(employee.second));
 		}
 	}
 

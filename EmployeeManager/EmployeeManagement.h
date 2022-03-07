@@ -8,13 +8,11 @@
 
 using namespace std;
 
-typedef map<string, Employee> EmployeeMap;
-
 class EmployeeManagement {
 public:
 	unique_ptr<vector<Employee>> processCmd(Command command, vector<Option> options, vector<Inform> informs);
 
-	void addEmployee(Employee& employee);
+	void addEmployee(unique_ptr<Employee> employee);
 
 	unique_ptr<vector<Employee>> deleteEmployees(Search& searcher, const Inform info);
 

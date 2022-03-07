@@ -1,6 +1,6 @@
 #include "ClSearch.h"
 
-unique_ptr<vector<Employee>> ClSearch::search(map<std::string, Employee>& employee_map, Inform condition) {
+unique_ptr<vector<Employee>> ClSearch::search(EmployeeMap& employee_map, Inform condition) {
 	auto results = make_unique<vector<Employee>>();
 	results->clear();
 
@@ -9,8 +9,8 @@ unique_ptr<vector<Employee>> ClSearch::search(map<std::string, Employee>& employ
 	}
 
 	for (auto& employee : employee_map) {
-		if (employee.second.cl == condition.value) {
-			results->emplace_back(employee.second);
+		if (employee.second->cl == condition.value) {
+			results->emplace_back(*(employee.second));
 		}
 	}
 
