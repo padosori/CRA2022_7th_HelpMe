@@ -3,6 +3,7 @@
 #include <string>
 #include <map>
 #include <vector>
+#include <functional>
 #include "Employee.h"
 #include "Search.h"
 #include "SearchFactory.h"
@@ -13,6 +14,8 @@ using namespace std;
 class EmployeeManagement {
 public:
 	unique_ptr<vector<Employee>> processCmd(Command command, vector<Option> options, vector<Inform> informs);
+
+	unique_ptr<vector<Employee>> searchList(string column_name, Inform condition, function<bool(Employee&)> lambda);
 
 	void addEmployee(unique_ptr<Employee> employee);
 
@@ -40,11 +43,6 @@ public:
 		auto it = employee_map.find(key);
 		if (it == employee_map.end()) return nullptr;
 		return it->second.get();
-	}
-
-	// TODO: getMap() should be removed.
-	EmployeeMap& getMap() {
-		return employee_map;
 	}
 
 private:
