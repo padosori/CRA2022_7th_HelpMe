@@ -161,7 +161,6 @@
     <ClCompile Include="PhoneNumSearch.cpp" />
     <ClCompile Include="SearchEmployeeListCmd.cpp" />
     <ClCompile Include="SearchFactory.cpp" />
-    <ClCompile Include="sum.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DeleteEmployeeListCmd.h" />
