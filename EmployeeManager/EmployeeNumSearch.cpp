@@ -5,7 +5,10 @@ unique_ptr<vector<Employee>> EmployeeNumSearch::search(EmployeeManagement& emplo
 	result->clear();
 	if (condition.column != "employeeNum") return move(result);
 	if (employee_mgmt.count(condition.value) == 1) {
-		result->emplace_back(*(employee_mgmt.getMap()[condition.value]));
+		auto employee = employee_mgmt.find(condition.value);
+		if (employee != nullptr) {
+			result->emplace_back(*employee);
+		}
 	}
 	return move(result);
 }

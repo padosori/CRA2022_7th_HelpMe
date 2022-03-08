@@ -2,15 +2,7 @@
 
 unique_ptr<vector<Employee>> LastPhoneNumSearch::search(EmployeeManagement& employee_mgmt, Inform condition)
 {
-	auto result = std::make_unique<vector<Employee>>();
-	result->clear();
-	if (condition.column != "phoneNum_last") return move(result);
-
-	for (auto& employee : employee_mgmt.getMap()) {
-		if (employee.second != nullptr && employee.second->last_phone_num == condition.value) {
-			result->emplace_back(*(employee.second));
-		}
-
-	}
-	return move(result);
+	auto is_match = [condition](Employee& employee) -> bool { return employee.last_phone_num == condition.value; };
+	auto results = employee_mgmt.searchList("phoneNum_last", condition, is_match);
+	return move(results);
 }

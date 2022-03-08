@@ -2,6 +2,7 @@
 #include <utility>
 #include <stdexcept>
 #include <iostream>
+#include <functional>
 #include "EmployeeManagement.h"
 #include "ClSearch.h"
 
@@ -88,6 +89,24 @@ string EmployeeManagement::printCurrentCmd(Command command, vector<Option> optio
 	buffer += ")";
 
 	return buffer;
+}
+
+unique_ptr<vector<Employee>> EmployeeManagement::searchList(string column_name, Inform condition,
+															function<bool(Employee&)> is_match) {
+	auto results = make_unique<vector<Employee>>();
+	results->clear();
+
+	if (condition.column != column_name) {
+		return move(results);
+	}
+
+	for (auto& employee : employee_map) {
+		if (employee.second != nullptr && is_match(*employee.second)) {
+			results->emplace_back(*(employee.second));
+		}
+	}
+
+	return move(results);
 }
 
 void EmployeeManagement::addEmployee(unique_ptr<Employee> employee) {

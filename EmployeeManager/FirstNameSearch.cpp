@@ -2,14 +2,7 @@
 
 unique_ptr<vector<Employee>> FirstNameSearch::search(EmployeeManagement& employee_mgmt, Inform condition)
 {
-	auto result = std::make_unique<vector<Employee>>();
-	result->clear();
-	if (condition.column != "name_first") return move(result);
-
-	for (auto& employee : employee_mgmt.getMap()) {
-		if (employee.second != nullptr && employee.second->first_name == condition.value) {
-			result->emplace_back(*(employee.second));
-		}
-	}
-	return move(result);
+	auto is_match = [condition](Employee& employee) -> bool { return employee.first_name == condition.value; };
+	auto results = employee_mgmt.searchList("name_first", condition, is_match);
+	return move(results);
 }
